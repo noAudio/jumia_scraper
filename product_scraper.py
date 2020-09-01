@@ -1,8 +1,6 @@
-def product_scraper(titles, links, prices, limit, default_link):
+def product_scraper(titles, links, prices, default_link):
     '''
-    This Function will scrape the webpage for specified data and append to a dictionary in a list.
-    Accepted parameters must be lists, except for limit which accepts an int.
-    Limit is the number of requests the scraper makes before sleeping.
+    Scrapes information of each product within a page and returns a list.
     '''
     products = []
 
