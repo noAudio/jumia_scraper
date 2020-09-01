@@ -33,8 +33,6 @@ def get_data(titles, links, prices, limit, default_link):
 request_limit_per_minute = 200
 default_link = 'https://www.jumia.co.ke'
 pages = 50
-# pages = 5
-products = []
 
 def setup(page):
     url = f'https://www.jumia.co.ke/office-furniture-lighting/?page={page}'
@@ -43,7 +41,13 @@ def setup(page):
 
     return response
 
-for page in range(1):
+    
+def scrape_multi_pages(page):
+    '''
+        Runs a for loop to scrape more than one page from the website. Pass in number of pages to scrape and they will be appended to url
+    '''
+    products = []
+
     response = setup(page)
     soup = BeautifulSoup(response.text, 'html.parser')
     titles = soup.select('.name')
@@ -52,6 +56,12 @@ for page in range(1):
 
     products = products + get_data(titles, links, prices, request_limit_per_minute, default_link)
     print(f'Scraped page {page} of {pages}')
+    
+    return products
+
+for page in range(pages):
+    products = scrape_multi_pages(page)
+
     sleep_time = randint(5, 10)
     print(f'Sleeping for {sleep_time} seconds...')
     time.sleep(sleep_time)
@@ -61,7 +71,8 @@ import xlsxwriter
 workbook = xlsxwriter.Workbook('jumia_products.xlsx')
 worksheet = workbook.add_worksheet()
 
-row = 0
+row = 1
+
 for dictionary in products:
     title = dictionary['title']
     link = dictionary['link']
