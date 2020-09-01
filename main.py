@@ -12,13 +12,11 @@ row = 1
 if __name__ == '__main__':
     # Scrape products from multiple pages
     for page in range(pages):
-        products = products + page_scraper(page)
+        products = products + page_scraper(page, pages)
 
         sleep_time = randint(5, 10)
         print(f'Sleeping for {sleep_time} seconds...')
         time.sleep(sleep_time)
 
     # Write scraped products into Excel workbook
-    for dictionary in products:
-        write_to_workbook(row, file_name, dictionary)
-        row += 1
+    write_to_workbook(row, file_name, products)
